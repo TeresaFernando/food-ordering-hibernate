@@ -78,3 +78,4 @@ src/
 
 This project is for educational purposes and is open for learning and improvement!
 
+> ✅ This repository is now under TeresaFernando!
