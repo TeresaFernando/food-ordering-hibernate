@@ -9,7 +9,7 @@ public class AppInsertData {
         Configuration config = new Configuration().configure("hibernate.cfg.xml");
         SessionFactory factory = config.buildSessionFactory();
         Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         try {
             // --- Restaurant 1 ---
@@ -66,11 +66,11 @@ public class AppInsertData {
             session.save(c4);
             session.save(c5);
 
-            tx.commit();
-            System.out.println("Data inserted successfully!");
+            transaction.commit();
+            System.out.println("✅Data inserted successfully!");
         } catch (Exception e) {
-            tx.rollback();
-            System.out.println("Transaction failed.");
+            transaction.rollback();
+            System.out.println("❌Transaction failed.");
             e.printStackTrace();
         } finally {
             session.close();

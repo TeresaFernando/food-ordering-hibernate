@@ -14,14 +14,14 @@ public class FoodOrderApp {
         factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
 
         while (true) {
-            System.out.println("\n====== Food Ordering System ======");
-            System.out.println("1. Place New Order");
-            System.out.println("2. Update Order Status");
-            System.out.println("3. View Orders by Customer");
-            System.out.println("4. Exit");
-            System.out.println("5. View All Orders");
-            System.out.println("6. Delete an Order");
-            System.out.print("Enter your choice: ");
+            System.out.println("\n====== 🍽️ Welcome to Food Order Management System ======");
+            System.out.println("1️⃣  Place New Order");
+            System.out.println("2️⃣  Update Order Status");
+            System.out.println("3️⃣  View Orders by Customer");
+            System.out.println("4️⃣  🚪 Exit");
+            System.out.println("5️⃣  📋 View All Orders");
+            System.out.println("6️⃣  ❌ Delete an Order");
+            System.out.print("🔸 Enter your choice: ");
             int choice = sc.nextInt();
 
             switch (choice) {
@@ -45,14 +45,14 @@ public class FoodOrderApp {
                     deleteOrder();
                     break;
                 default:
-                    System.out.println("Invalid choice. Try again.");
+                    System.out.println("⚠️Invalid choice. Try again.");
             }
         }
     }
 
     private static void placeOrder() {
         Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         try {
             System.out.print("Enter Customer ID: ");
@@ -64,7 +64,7 @@ public class FoodOrderApp {
             Restaurant restaurant = session.get(Restaurant.class, restaurantId);
 
             if (customer == null || restaurant == null) {
-                System.out.println("Invalid Customer or Restaurant ID.");
+                System.out.println("⚠️Invalid Customer or Restaurant ID.");
                 return;
             }
 
@@ -75,7 +75,7 @@ public class FoodOrderApp {
                     .list();
 
             if (availableItems.isEmpty()) {
-                System.out.println("No items available for this restaurant.");
+                System.out.println("❌No items available for this restaurant.");
                 return;
             }
 
@@ -104,7 +104,7 @@ public class FoodOrderApp {
             }
 
             if (selectedItems.isEmpty()) {
-                System.out.println("No valid items selected.");
+                System.out.println("❌No valid items selected.");
                 return;
             }
 
@@ -117,12 +117,12 @@ public class FoodOrderApp {
             order.setStatus("Placed");
 
             session.save(order);
-            tx.commit();
-            System.out.println("Order placed successfully!");
+            transaction.commit();
+            System.out.println("✅Order placed successfully!");
 
         } catch (Exception e) {
-            tx.rollback();
-            System.out.println("Failed to place order.");
+            transaction.rollback();
+            System.out.println("⚠️Failed to place order.");
             e.printStackTrace();
         } finally {
             session.close();
@@ -134,12 +134,12 @@ public class FoodOrderApp {
         int id = sc.nextInt();
 
         Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         try {
             Order order = session.get(Order.class, id);
             if (order == null) {
-                System.out.println("Order not found!");
+                System.out.println("❌Order not found!");
                 return;
             }
 
@@ -158,19 +158,19 @@ public class FoodOrderApp {
                 case 3: status = "Delivered"; break;
                 case 4: status = "Cancelled"; break;
                 default:
-                    System.out.println("Invalid choice. Status not updated.");
+                    System.out.println("⚠️Invalid choice. Status not updated.");
                     return;
             }
 
             order.setStatus(status);
             session.update(order);
-            tx.commit();
+            transaction.commit();
 
             System.out.println("Order status updated to \"" + status + "\"!");
 
         } catch (Exception e) {
-            tx.rollback();
-            System.out.println("Failed to update status.");
+            transaction.rollback();
+            System.out.println("❌Failed to update status.");
             e.printStackTrace();
         } finally {
             session.close();
@@ -186,7 +186,7 @@ public class FoodOrderApp {
         try {
             Customer customer = session.get(Customer.class, id);
             if (customer == null) {
-                System.out.println("Customer not found!");
+                System.out.println("⚠️Customer not found!");
                 return;
             }
 
@@ -195,7 +195,7 @@ public class FoodOrderApp {
             List<Order> orders = query.list();
 
             if (orders.isEmpty()) {
-                System.out.println("No orders found for this customer.");
+                System.out.println("❌No orders found for this customer.");
             } else {
                 for (Order order : orders) {
                     System.out.println("\nOrder ID: " + order.getId());
@@ -210,7 +210,7 @@ public class FoodOrderApp {
             }
 
         } catch (Exception e) {
-            System.out.println(" Error fetching orders.");
+            System.out.println("❌Error fetching orders.");
             e.printStackTrace();
         } finally {
             session.close();
@@ -225,7 +225,7 @@ public class FoodOrderApp {
             List<Order> orders = query.list();
 
             if (orders.isEmpty()) {
-                System.out.println("No orders found.");
+                System.out.println("❌No orders found.");
             } else {
                 for (Order order : orders) {
                     System.out.println("\nOrder ID: " + order.getId());
@@ -242,7 +242,7 @@ public class FoodOrderApp {
             }
 
         } catch (Exception e) {
-            System.out.println("Error fetching orders.");
+            System.out.println("❌Error fetching orders.");
             e.printStackTrace();
         } finally {
             session.close();
@@ -254,22 +254,22 @@ public class FoodOrderApp {
         int id = sc.nextInt();
 
         Session session = factory.openSession();
-        Transaction tx = session.beginTransaction();
+        Transaction transaction = session.beginTransaction();
 
         try {
             Order order = session.get(Order.class, id);
             if (order == null) {
-                System.out.println("Order not found!");
+                System.out.println("⚠️Order not found!");
                 return;
             }
 
             session.delete(order);
-            tx.commit();
-            System.out.println("Order deleted successfully!");
+            transaction.commit();
+            System.out.println("✅Order deleted successfully!");
 
         } catch (Exception e) {
-            tx.rollback();
-            System.out.println("Failed to delete order.");
+            transaction.rollback();
+            System.out.println("❌Failed to delete order.");
             e.printStackTrace();
         } finally {
             session.close();
